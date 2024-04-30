@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TODO</title>
+    <link rel="stylesheet" href="./styles.css">
+</head>
+
+<body>
+    <div class="container">
+        <header class="header">TODO List</header>
+        <main class="main">
+            <form id="todo-form">
+                <input type="text" id="todo-input" placeholder="Digite uma nova tarefa">
+                <button type="submit">Adicionar</button>
+            </form>
+            <ul id="lista-tarefas"></ul>
+        </main>
+
+        <footer class="footer">
+            <p>&copy; 2024 TODO App. Todos os direitos reservados.</p>
+        </footer>
+    </div>
+
+    <script>
+        function adicionarTarefa(event) {
+            event.preventDefault();
+            const input = document.getElementById('todo-input');
+            const textoTarefa = input.value.trim();
+
+            if (textoTarefa !== '') {
+                let tarefas = JSON.parse(localStorage.getItem('tarefas')) || [];
+                tarefas.push(textoTarefa);
+                localStorage.setItem('tarefas', JSON.stringify(tarefas));
+                input.value = '';
+                mostrarTarefas();
+            }
+        }
+
+        function mostrarTarefas() {
+            const listaTarefas = document.getElementById('lista-tarefas');
+            listaTarefas.innerHTML = '';
+            const tarefas = JSON.parse(localStorage.getItem('tarefas')) || [];
+
+            tarefas.forEach(tarefa => {
+                const itemLista = document.createElement('li');
+                itemLista.textContent = tarefa;
+                listaTarefas.appendChild(itemLista);
+            });
+        }
+
+        window.addEventListener('load', mostrarTarefas);
+
+        document.getElementById('todo-form').addEventListener('submit', adicionarTarefa);
+    </script>
+</body>
+
+</html>
